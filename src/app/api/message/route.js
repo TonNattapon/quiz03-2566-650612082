@@ -65,7 +65,6 @@ export const DELETE = async (request) => {
     studentId = payload.studentId;
     role = payload.role;
   } catch (error) {
-    console.err(error);
     return NextResponse.json(
       {
         ok: false,
