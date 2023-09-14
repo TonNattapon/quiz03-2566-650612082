@@ -7,10 +7,11 @@ export const POST = async (request) => {
   readDB();
   const body = await request.json();
   const { username, password } = body;
+
+  //you should do the validation here
   const user = DB.users.find(
     (user) => user.username === username && user.password === password
   );
-
   if (!user) {
     return NextResponse.json(
       {
@@ -21,9 +22,10 @@ export const POST = async (request) => {
     );
   }
   const token = jwt.sign(
-    { username, role: user.role, studentId: user.studentId },
-    process.env.JWT_SECRET,
+    { username, password, role: user.role }, //paylode
+    process.env.JWT_SECRET, //สร้าง
     { expiresIn: "8h" }
   );
+
   return NextResponse.json({ ok: true, token });
 };
