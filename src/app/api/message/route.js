@@ -3,6 +3,7 @@ import { checkToken } from "@/app/libs/checkToken";
 import { nanoid } from "nanoid";
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
+import { Monsieur_La_Doulaise } from "next/font/google";
 
 export const GET = async (request) => {
   readDB();
@@ -89,14 +90,18 @@ export const DELETE = async (request) => {
   const body = await request.json();
   const { messageId } = body;
 
-  // return NextResponse.json(
-  //   {
-  //     ok: false,
-  //     message: "Message is not found",
-  //   },
-  //   { status: 404 }
-  // );
+  const foundIndex = DB.messages.findIndex((x) => x.message === messageId);
 
+  if (foundIndex === -1) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Message is not found",
+      },
+      { status: 404 }
+    );
+  }
+  DB.messages.splice(foundIndex, 1);
   writeDB();
 
   return NextResponse.json({
