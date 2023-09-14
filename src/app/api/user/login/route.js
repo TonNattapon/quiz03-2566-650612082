@@ -22,8 +22,8 @@ export const POST = async (request) => {
     );
   }
   const token = jwt.sign(
-    { username, password, role: user.role }, //paylode
-    process.env.JWT_SECRET, //สร้าง
+    { username, password, role: user.role },
+    process.env.JWT_SECRET,
     { expiresIn: "8h" }
   );
 
